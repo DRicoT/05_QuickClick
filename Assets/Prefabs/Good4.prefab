@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7882796905631954838}
   - component: {fileID: 7882796905631954839}
   - component: {fileID: 2275281804742593803}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Good4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125,3 +125,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86233145bbee15445bc6934a382b2b39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minForce: 12
+  maxForce: 16
+  maxTorque: 10
