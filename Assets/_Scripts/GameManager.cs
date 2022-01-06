@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
-
-
+using TMPro; //Si quieres trabajar con Text Mesh Pro
+using UnityEngine.UI; //Si quieres trabajar con cosas del Interface como la clase Button
+using UnityEngine.SceneManagement; //Si quieres trabajar con reinicios de escenas
 public class GameManager : MonoBehaviour
 {
     public enum GameState
@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float spawnRate = 1.0f;
 
     public TextMeshProUGUI scoreText;
+    public Button restartButton; //using UnityEngine.UI;
     private int _score;
 
     private int Score
@@ -76,6 +77,15 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         gameState = GameState.gameOver;
+        restartButton.gameObject.SetActive(true);
         gameOverText.gameObject.SetActive(true);
+    }
+    
+    /// <summary>
+    /// Recarga la escena actual
+    /// </summary>
+    public void RestartGame() //Debe ser void para ser llamada por un Button
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name); 
     }
 }
