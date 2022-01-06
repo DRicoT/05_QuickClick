@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations;
 using Random = UnityEngine.Random;
 
 public class Target : MonoBehaviour
@@ -13,15 +14,23 @@ public class Target : MonoBehaviour
     [SerializeField] private float maxTorque = 10;
     private float xRange = 4;
     private float ySpawnPos = -5;
-    
+    [SerializeField] private int valuePoints;
+    [SerializeField] private ParticleSystem explosionParticles;
+    [SerializeField] private AudioClip explosionAudioClip;
+    [SerializeField] private float volumeAudioClip;
+    private AudioSource _audioSource; 
+    private GameManager gameManager;
     
     // Start is called before the first frame update
     void Start()
     {
+        _audioSource = GameObject.Find("Game Manager").GetComponent<AudioSource>();
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.AddForce(RandomForce(), ForceMode.Impulse);
         _rigidbody.AddTorque(RandomTorque(),RandomTorque(), RandomTorque(),ForceMode.Impulse);
         transform.position = RandomSpawnPosition();
+        gameManager = FindObjectOfType<GameManager>();
+        
     }
 
     // Update is called once per frame
@@ -59,7 +68,18 @@ public class Target : MonoBehaviour
 
     private void OnMouseDown()
     {
-        Destroy(gameObject);
+        if (gameManager.gameState == GameManager.GameState.inGame)
+        {
+            Destroy(gameObject);
+            _audioSource.PlayOneShot(explosionAudioClip, volumeAudioClip);
+            Instantiate(explosionParticles, transform.position, explosionParticles.transform.rotation);
+            gameManager.UpdateScore(valuePoints);
+            if (gameObject.CompareTag("Bad"))
+            {
+                gameManager.GameOver();
+            }
+        }
+        
     }
 
     private void OnTriggerEnter(Collider other)
@@ -67,6 +87,10 @@ public class Target : MonoBehaviour
         if (other.CompareTag("KillZone"))
         {
             Destroy(gameObject);
+            if (gameObject.CompareTag("Good"))
+            {
+                gameManager.GameOver();
+            }
         }
     }
     

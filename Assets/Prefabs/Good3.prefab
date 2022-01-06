@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 3655974397252620649}
   m_Layer: 10
   m_Name: Good3
-  m_TagString: Untagged
+  m_TagString: Good
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8148895964735719823}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.76312166, y: 2.0465596, z: 1.1223793}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
@@ -128,3 +128,8 @@ MonoBehaviour:
   minForce: 12
   maxForce: 16
   maxTorque: 10
+  valuePoints: 8
+  explosionParticles: {fileID: 6601538019107920666, guid: 70a1428e5f80a4866a779ef1ab9fe521,
+    type: 3}
+  explosionAudioClip: {fileID: 8300000, guid: d284898505707a044b1ec626792ce12c, type: 3}
+  volumeAudioClip: 1
