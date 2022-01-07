@@ -21,7 +21,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float spawnRate = 1.0f;
 
     public TextMeshProUGUI scoreText;
-    public Button restartButton; //using UnityEngine.UI;
     private int _score;
 
     private int Score
@@ -36,21 +35,25 @@ public class GameManager : MonoBehaviour
         }
     }
     
-    [SerializeField] private TextMeshProUGUI gameOverText;
-
+    [SerializeField] private GameObject gameOverLayout; //using UnityEngine.UI;
+    [SerializeField] private GameObject titleLayout;
+    
+    
     // Start is called before the first frame update
     void Start()
     {
+
+    }
+    /// <summary>
+    /// Inicia el Game play
+    /// </summary>
+    public void StartGame()
+    {
         gameState = GameState.inGame;
+        titleLayout.gameObject.SetActive(false);
         StartCoroutine(SpawnTarget());
         Score = 0;
         UpdateScore(0);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     IEnumerator SpawnTarget()
@@ -77,8 +80,7 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         gameState = GameState.gameOver;
-        restartButton.gameObject.SetActive(true);
-        gameOverText.gameObject.SetActive(true);
+        gameOverLayout.gameObject.SetActive(true);
     }
     
     /// <summary>
