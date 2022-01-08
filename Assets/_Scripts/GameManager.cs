@@ -37,20 +37,28 @@ public class GameManager : MonoBehaviour
     
     [SerializeField] private GameObject gameOverLayout; //using UnityEngine.UI;
     [SerializeField] private GameObject titleLayout;
-    
-    
+
+    [Range(0,4)]private int playerLives = 4;
+
+    [SerializeField] private List<GameObject> lives;
     // Start is called before the first frame update
     void Start()
     {
-
+        ShowMaxScore();
     }
     /// <summary>
     /// Inicia el Game play
     /// </summary>
-    public void StartGame()
+    public void StartGame(int difficulty)
     {
         gameState = GameState.inGame;
         titleLayout.gameObject.SetActive(false);
+        spawnRate /= difficulty;
+        playerLives -= difficulty;
+        for (int i = 0; i < playerLives; i++)
+        {
+            lives[i].gameObject.SetActive(true);
+        }
         StartCoroutine(SpawnTarget());
         Score = 0;
         UpdateScore(0);
@@ -74,13 +82,62 @@ public class GameManager : MonoBehaviour
     {
         Score += scoreToAdd;
         scoreText.text = "Score: \n" + Score;
-
+    }
+    /// <summary>
+    /// Muestra la puntuación máxima
+    /// </summary>
+    internal void ShowMaxScore()
+    {
+        int maxScore = PlayerPrefs.GetInt("MAX_SCORE", 0);
+        scoreText.text = "Max Score: \n" + maxScore;
+    }
+    /// <summary>
+    /// Actualiza la puntuación máxima si la nueva puntuación es mayor
+    /// </summary>
+    internal void SetMaxScore()
+    {
+        int maxScore = PlayerPrefs.GetInt("MAX_SCORE", 0);
+        if (Score>maxScore)
+        {
+            PlayerPrefs.SetInt("MAX_SCORE", Score);
+        }
     }
 
-    public void GameOver()
+    private void ChangeHeartAlpha(int hearts)
     {
-        gameState = GameState.gameOver;
-        gameOverLayout.gameObject.SetActive(true);
+        if (hearts >= 0)
+        {
+            Image heartImage = lives[hearts].GetComponent<Image>();
+            var tempColor = heartImage.color;
+            tempColor.a = 0.3f;
+            heartImage.color = tempColor; 
+        }
+        
+    }
+    public void GameOver(int State)
+    {
+        if (State == 0)
+        {
+            for (int i = 0; i < playerLives; i++)
+            {
+                ChangeHeartAlpha(i);
+            }
+            SetMaxScore();
+            gameState = GameState.gameOver;
+            gameOverLayout.gameObject.SetActive(true);
+        }
+        else if (State == 1)
+        {
+            playerLives--;
+            ChangeHeartAlpha(playerLives);
+            if (playerLives<=0)
+            {
+                SetMaxScore();
+                gameState = GameState.gameOver;
+                gameOverLayout.gameObject.SetActive(true);
+            }
+        }
+        
     }
     
     /// <summary>

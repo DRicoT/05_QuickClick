@@ -6,6 +6,8 @@ public class DificultyButton : MonoBehaviour
 {
     private Button _button;
     private GameManager gameManager;
+
+    [SerializeField,Range(1,3)] private int difficulty;
     
     // Start is called before the first frame update
     void Start()
@@ -17,7 +19,7 @@ public class DificultyButton : MonoBehaviour
 
     void SetDificulty()
     {
-        Debug.Log("El botón "+gameObject.name+" ha sido pulsado.");
-        gameManager.StartGame();
+        Debug.Log("Has elegido el nivel "+gameObject.name+" de dificultad.");
+        gameManager.StartGame(difficulty);
     }
 }

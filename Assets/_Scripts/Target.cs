@@ -76,7 +76,7 @@ public class Target : MonoBehaviour
             gameManager.UpdateScore(valuePoints);
             if (gameObject.CompareTag("Bad"))
             {
-                gameManager.GameOver();
+                gameManager.GameOver(0);
             }
         }
         
@@ -89,7 +89,7 @@ public class Target : MonoBehaviour
             Destroy(gameObject);
             if (gameObject.CompareTag("Good"))
             {
-                gameManager.GameOver();
+                gameManager.GameOver(1);
             }
         }
     }
